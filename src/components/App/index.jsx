@@ -3,7 +3,7 @@ import { Col, Row } from "antd";
 import styles from "./styles.module.css";
 
 import Home from "pages/Home";
-import NewPost from "pages/Home/NewPost";
+import NewPost from "pages/NewPost";
 import HeaderMenu from "./HeaderMenu";
 
 function App() {
