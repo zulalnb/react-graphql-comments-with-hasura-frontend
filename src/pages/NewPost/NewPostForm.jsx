@@ -4,14 +4,6 @@ import { Button, Flex, Form, Input, message, Select } from "antd";
 import { GET_USERS, NEW_POST_MUTATION } from "./queries";
 
 const { Option } = Select;
-
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
-
 function NewPostForm() {
   const [savePost, { loading }] = useMutation(NEW_POST_MUTATION);
 
@@ -35,7 +27,6 @@ function NewPostForm() {
       name="basic"
       layout="vertical"
       onFinish={handleSubmit}
-      onFinishFailed={onFinishFailed}
       disabled={loading}
       autoComplete="off"
     >
