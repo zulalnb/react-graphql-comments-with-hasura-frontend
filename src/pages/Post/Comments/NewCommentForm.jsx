@@ -9,11 +9,11 @@ const CommentInput = (props) => {
   const { loading: get_users_loading, data: users_data } = useQuery(GET_USERS);
   const { id, value = {}, onChange } = props;
   const [text, setText] = useState("");
-  const [user_id, setUser_Id] = useState("1");
+  const [user, setUser] = useState();
   const triggerChange = (changedValue) => {
     onChange?.({
       text,
-      user_id,
+      user,
       ...value,
       ...changedValue,
     });
@@ -27,11 +27,11 @@ const CommentInput = (props) => {
     });
   };
   const onUserChange = (newUser) => {
-    if (!("user_id" in value)) {
-      setUser_Id(newUser);
+    if (!("user" in value)) {
+      setUser(newUser);
     }
     triggerChange({
-      user_id: newUser,
+      user: newUser,
     });
   };
   return (
@@ -46,7 +46,8 @@ const CommentInput = (props) => {
         }}
       />
       <Select
-        value={value.user_id || user_id}
+        placeholder="Select user"
+        value={value.user}
         onChange={onUserChange}
         disabled={get_users_loading}
         loading={get_users_loading}
@@ -57,7 +58,7 @@ const CommentInput = (props) => {
       >
         {users_data &&
           users_data.users.map((user) => (
-            <Option key={user.id} value={user.id}>
+            <Option key={user._id} value={user._id}>
               {user.fullName}
             </Option>
           ))}
@@ -81,7 +82,7 @@ function NewCommentForm({ post_id }) {
     }
   };
 
-  const checkPrice = (_, value) => {
+  const checkComment = (_, value) => {
     if (value.text.length > 0) {
       return Promise.resolve();
     }
@@ -97,8 +98,7 @@ function NewCommentForm({ post_id }) {
       initialValues={{
         data: {
           text: "",
-          user_id: "1",
-          post_id,
+          post: post_id,
         },
       }}
     >
@@ -106,7 +106,7 @@ function NewCommentForm({ post_id }) {
         name="data"
         rules={[
           {
-            validator: checkPrice,
+            validator: checkComment,
           },
         ]}
       >
