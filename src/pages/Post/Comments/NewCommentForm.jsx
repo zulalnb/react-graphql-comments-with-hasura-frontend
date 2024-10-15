@@ -13,7 +13,7 @@ const CommentInput = (props) => {
   const triggerChange = (changedValue) => {
     onChange?.({
       text,
-      user,
+      user_id: user,
       ...value,
       ...changedValue,
     });
@@ -31,9 +31,10 @@ const CommentInput = (props) => {
       setUser(newUser);
     }
     triggerChange({
-      user: newUser,
+      user_id: newUser,
     });
   };
+
   return (
     <span id={id}>
       <Input
@@ -47,7 +48,7 @@ const CommentInput = (props) => {
       />
       <Select
         placeholder="Select user"
-        value={value.user}
+        value={value.user_id}
         onChange={onUserChange}
         disabled={get_users_loading}
         loading={get_users_loading}
@@ -58,7 +59,7 @@ const CommentInput = (props) => {
       >
         {users_data &&
           users_data.users.map((user) => (
-            <Option key={user._id} value={user._id}>
+            <Option key={user.id} value={user.id}>
               {user.fullName}
             </Option>
           ))}
@@ -96,14 +97,14 @@ function NewCommentForm({ post_id }) {
       layout="inline"
       onFinish={handleSubmit}
       initialValues={{
-        data: {
+        input: {
           text: "",
-          post: post_id,
+          post_id,
         },
       }}
     >
       <Form.Item
-        name="data"
+        name="input"
         rules={[
           {
             validator: checkComment,
